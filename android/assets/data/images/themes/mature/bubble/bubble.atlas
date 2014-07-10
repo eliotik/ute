@@ -1,0 +1,180 @@
+
+bubble.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bubble
+  rotate: false
+  xy: 2, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 1
+bubble
+  rotate: false
+  xy: 2, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 2
+bubble
+  rotate: false
+  xy: 64, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 3
+bubble
+  rotate: false
+  xy: 64, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 4
+bubble
+  rotate: false
+  xy: 126, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 5
+bubble
+  rotate: false
+  xy: 126, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 6
+bubble
+  rotate: false
+  xy: 188, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 7
+bubble
+  rotate: false
+  xy: 188, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 8
+bubble
+  rotate: false
+  xy: 250, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 9
+bubble
+  rotate: false
+  xy: 250, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 10
+bubble
+  rotate: false
+  xy: 312, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 11
+bubble
+  rotate: false
+  xy: 312, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 12
+bubble
+  rotate: false
+  xy: 374, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 13
+bubble
+  rotate: false
+  xy: 374, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 14
+bubble
+  rotate: false
+  xy: 436, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 15
+bubble
+  rotate: false
+  xy: 436, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 16
+bubble
+  rotate: false
+  xy: 498, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 17
+bubble
+  rotate: false
+  xy: 498, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 18
+bubble
+  rotate: false
+  xy: 560, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 19
+bubble
+  rotate: false
+  xy: 560, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 20
+bubble
+  rotate: false
+  xy: 622, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 21
+bubble
+  rotate: false
+  xy: 622, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 22
+bubble
+  rotate: false
+  xy: 684, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 23
+bubble
+  rotate: false
+  xy: 684, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 24
+bubble
+  rotate: false
+  xy: 746, 64
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: 25

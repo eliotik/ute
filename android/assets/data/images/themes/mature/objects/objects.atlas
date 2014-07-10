@@ -1,0 +1,33 @@
+
+objects.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+object
+  rotate: false
+  xy: 1, 1
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: 0
+object
+  rotate: false
+  xy: 68, 1
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: 1
+object
+  rotate: false
+  xy: 135, 1
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: 2
+object
+  rotate: false
+  xy: 202, 1
+  size: 65, 65
+  orig: 65, 65
+  offset: 0, 0
+  index: 3

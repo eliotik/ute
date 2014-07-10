@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="pockemon" tilewidth="16" tileheight="16" spacing="1" margin="1">
+  <tileoffset x="1" y="1"/>
+  <image source="tiles.png" width="343" height="410"/>
+ </tileset>
+ <layer name="Слой тайлов 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2j8vBEEcxvHZAoXTEAUKNLwA9NehQ/QaZ1+CqO9oJKK7O+XxLrwH8QaQiDeAN+C52Mn9TObv7uzOzkbxTdY5yXzM7s7e3j4zxqaTuHuC4RmlkdVCL+gVvbG/jtkSmlN0rKlliDs+0Rf6rsgh/i99OaayfWomqc7RRjfZ9q3BYbJwxxLGv4xWauzQWbjjPPndHr+3zg6VhTuuczq6+Lseukzq4eDbro4+xj9AwwodMksRRxf1sq4sDb4cosXGoTrf99EADdGd5n2yqKNVoaOM9XfsGKF79JDDQT0ujsUsup037uDRccleM+XqoPuzT4eqpjhsPalku44OkylGh8wTq6Mp8/HvmDg6gR2+jvOLwA6ZxdUxYpPrCDqueVzvLiTxzIeqDRg2S3T4Xgd9ZeuQXV/G5qDnRupqiqPdIIdoidlBLS4OH4V2+Ci0YxWtoXVW/N5byONjC22jncgdu2gP7Ufg0H0+p8dpnR2m+wwp+X3VjhOFQ7YO1tUxYpNra9182N6HC+WQJTpc7ouW5chbnRwH+KxyiI6y+M/0dT4e1dyU6VCtmaLjFOPsoLMs/jN9na4JOoONI2VuDtWaWWQ+VNk6ZN/5mK6h6Jqpu75ynQ+dweSgzwZQR5Fj1PXa3iWVgz4bIDp8fhaxzfQsgMpBnw0I7TCNnZ5fRAd9NiCkw2YO6PlFdpyL+13VDtt9iZ5fVA5aWd95+o47PtBj5L2jH6wlbgU=
+  </data>
+ </layer>
+</map>
