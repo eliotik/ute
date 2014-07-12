@@ -1,6 +1,7 @@
 package com.universal.tween.engine.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TexturedGameObject extends GameObject {
@@ -12,12 +13,12 @@ public class TexturedGameObject extends GameObject {
 	}
 
 	@Override
-	public void update() {
+	public void update(float delta) {
 
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch) {
+	public void render(Batch spriteBatch) {
 
 	}
 

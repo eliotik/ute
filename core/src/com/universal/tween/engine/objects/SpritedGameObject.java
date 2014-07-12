@@ -1,7 +1,7 @@
 package com.universal.tween.engine.objects;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SpritedGameObject extends GameObject {
 	private Sprite sprite;
@@ -14,12 +14,12 @@ public class SpritedGameObject extends GameObject {
 	}
 
 	@Override
-	public void update() {
+	public void update(float delta) {
 
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch) {
+	public void render(Batch spriteBatch) {
 
 	}
 

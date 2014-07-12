@@ -78,7 +78,7 @@ public class GameScreen2 extends DefaultScreen implements InputProcessor {
 			spawnTool(position);
 		}
 		
-		getObjects().update();
+		getObjects().update(delta);
 		
 		getBatch().begin();
 		getBatch().draw(Resources.getInstance().background2, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

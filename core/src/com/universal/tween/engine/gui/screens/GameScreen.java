@@ -57,7 +57,7 @@ public class GameScreen extends DefaultScreen implements InputProcessor {
 			spawnBall(position);
 		}
 		
-		getObjects().update();
+		getObjects().update(delta);
 		
 		getBatch().begin();
 		getBatch().draw(Resources.getInstance().background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

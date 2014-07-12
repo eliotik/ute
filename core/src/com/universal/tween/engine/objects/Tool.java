@@ -1,6 +1,7 @@
 package com.universal.tween.engine.objects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.universal.tween.engine.resources.Resources;
@@ -19,20 +20,16 @@ public class Tool extends SpritedGameObject {
     }
 
 	@Override
-	public void update() {
-		updatePosition();
+	public void update(float delta) {
+		
 	}
 
 	@Override
-	public void render(SpriteBatch spriteBatch) {
+	public void render(Batch spriteBatch) {
 		Color c = new Color(spriteBatch.getColor());
 		spriteBatch.setColor(getColor().r, getColor().g, getColor().b, getColor().a); 
 		spriteBatch.draw(getSprite(), getBounds().x, getBounds().y);
 		spriteBatch.setColor(c);
-	}
-
-	private void updatePosition() {
-
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.universal.tween.engine.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -57,23 +58,7 @@ public class Ball extends SpritedGameObject {
 	}
 
 	@Override
-	public void update() {
-		updatePosition();
-	}
-
-	@Override
-	public void render(SpriteBatch spriteBatch) {
-		if (changeColor) {
-			Color c = new Color(spriteBatch.getColor());
-			spriteBatch.setColor(getColor().r, getColor().g, getColor().b, 1); 
-			spriteBatch.draw(getSprite(), getBounds().x, getBounds().y);
-			spriteBatch.setColor(c);
-		} else {
-			spriteBatch.draw(getSprite(), getBounds().x, getBounds().y);
-		}
-	}
-
-	private void updatePosition() {
+	public void update(float delta) {
 		float nextX = getBounds().x + (getxModificator() * getSpeed() * Gdx.graphics.getDeltaTime());
 		float nextY = getBounds().y + (getyModificator() * getSpeed() * Gdx.graphics.getDeltaTime());
 		
@@ -95,6 +80,18 @@ public class Ball extends SpritedGameObject {
 		
 		getBounds().x = nextX;
 		getBounds().y = nextY;
+	}
+
+	@Override
+	public void render(Batch spriteBatch) {
+		if (changeColor) {
+			Color c = new Color(spriteBatch.getColor());
+			spriteBatch.setColor(getColor().r, getColor().g, getColor().b, 1); 
+			spriteBatch.draw(getSprite(), getBounds().x, getBounds().y);
+			spriteBatch.setColor(c);
+		} else {
+			spriteBatch.draw(getSprite(), getBounds().x, getBounds().y);
+		}
 	}
 
 	@Override

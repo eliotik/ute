@@ -7,10 +7,13 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -20,6 +23,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.universal.tween.engine.gui.ScreenType;
@@ -29,7 +33,7 @@ import com.universal.tween.engine.objects.Tool;
 import com.universal.tween.engine.resources.Config;
 import com.universal.tween.engine.resources.GameInstance;
 
-public class GameScreen3 extends DefaultScreen implements InputProcessor {
+public class GameScreen3 extends DefaultScreen {
 	
 	private SpriteBatch batch = null;
 	private OrthographicCamera camera = null;
@@ -46,13 +50,20 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 	private Player currentPlayer;
 	
 	private boolean isPlayerAlive = false;
+	private Rectangle rectTest;
+	private ShapeRenderer sr;
 	
 	public GameScreen3() {
 		if (Config.SHOW_LOG) Gdx.app.log(Config.LOG, "Game screen 3: init");
 		setBatch(new SpriteBatch());
 		setObjects(new Objects());
 		setFont(new BitmapFont());
-		setCamera(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		
+		sr = new ShapeRenderer();
+		sr.setColor(Color.CYAN);
+		Gdx.gl.glLineWidth(3);
+		
+//		setCamera(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 //		getCamera().position.set(Gdx.graphics.getWidth() / 2,  Gdx.graphics.getHeight() / 2, 0);
 		
 //		getCamera().setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -61,8 +72,8 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 		captionX1 = 50;
 		captionY = 50;
 		
-		map = new TmxMapLoader().load(Config.DATA_MAPS_MAP);
-		mapRenderer = new OrthogonalTiledMapRenderer(map);
+//		map = new TmxMapLoader().load(Config.DATA_MAPS_MAP);
+//		mapRenderer = new OrthogonalTiledMapRenderer(map);
 		
 //		TiledMapTileSet tileset =  map.getTileSets().getTileSet("house");
 //		Map<String,TiledMapTile> roadTiles = new HashMap<String,TiledMapTile>();
@@ -72,24 +83,24 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 //                roadTiles.put((String)property,tile);
 //        }
 		
-        ArrayList<TiledMapTileLayer.Cell> roadCellsInScene = new ArrayList<TiledMapTileLayer.Cell>();
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("main");
-        for(int x = 0; x < layer.getWidth();x++){
-            for(int y = 0; y < layer.getHeight();y++){
-                TiledMapTileLayer.Cell cell = layer.getCell(x,y);
-                Object property = cell.getTile().getProperties().get("isroad");
-                if(property != null && ((String) property).equals("true")){
-                    roadCellsInScene.add(cell);
-                    System.out.println(x+" : "+y);
-                    
-//        			Tool tool = getObjects().getToolsPool().obtain();
-//        	        tool.init(x*32, y*32, 65, 65);
-//
-//        	        getObjects().getActiveTools().add(tool);
-                }
-            }
-        }
-        System.out.println(roadCellsInScene.size());
+//        ArrayList<TiledMapTileLayer.Cell> roadCellsInScene = new ArrayList<TiledMapTileLayer.Cell>();
+//        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("main");
+//        for(int x = 0; x < layer.getWidth();x++){
+//            for(int y = 0; y < layer.getHeight();y++){
+//                TiledMapTileLayer.Cell cell = layer.getCell(x,y);
+//                Object property = cell.getTile().getProperties().get("isroad");
+//                if(property != null && ((String) property).equals("true")){
+//                    roadCellsInScene.add(cell);
+//                    System.out.println(x+" : "+y);
+//                    
+////        			Tool tool = getObjects().getToolsPool().obtain();
+////        	        tool.init(x*32, y*32, 65, 65);
+////
+////        	        getObjects().getActiveTools().add(tool);
+//                }
+//            }
+//        }
+//        System.out.println(roadCellsInScene.size());
 	}
 
 	@Override
@@ -100,50 +111,51 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 
 		GameInstance.getInstance().switchScreens(ScreenType.GAME3);
 		
-		if (Gdx.input.isTouched()) {
-			spawnPlayer();
+		if (isPlayerAlive() && getCurrentPlayer() != null) {
+			getCamera().position.set(getCurrentPlayer().getBounds().getX() + getCurrentPlayer().getBounds().getWidth() / 2, getCurrentPlayer().getBounds().getY() + getCurrentPlayer().getBounds().getHeight() / 2, 0);
 		}
-		
 		getCamera().update();
-//		getBatch().setProjectionMatrix(getCamera().combined);
 
 		mapRenderer.setView(getCamera());
 		mapRenderer.render();
 		
-		getObjects().update();
+		getObjects().update(delta);
 		
+		// testing player rect bounds
+//		sr.setProjectionMatrix(camera.combined);
+//		sr.begin(ShapeType.Filled);
+//		rectTest.set(getCurrentPlayer().getBounds());
+//		sr.rect(rectTest.x, rectTest.y, rectTest.width, rectTest.height);
+//		sr.end();
 		
-		getBatch().begin();
+		mapRenderer.getSpriteBatch().begin();
 		
 		font.setColor(0f, 0.5f, 1f, 1f);
-		font.draw(batch, DESC, captionX1, captionY);
+		font.draw(mapRenderer.getSpriteBatch(), DESC, captionX1, captionY);
 		
-		getObjects().render(getBatch(), delta);
+		getObjects().render(mapRenderer.getSpriteBatch(), delta);
 		
-        getBatch().end();
+		mapRenderer.getSpriteBatch().end();
 	}
 	
 	private void spawnPlayer() {
 		if (TimeUtils.nanoTime() - getObjects().getLastPlayerTime() <= 500000000) return;
 		
 		if (isPlayerAlive()) {
-			return;
-//			getCurrentPlayer().setAlive(false);
+			getCurrentPlayer().setAlive(false);
 		};
+		
 		setPlayerAlive(true);
 		
-//		Vector3 coordinates = new Vector3(Gdx.graphics.getWidth()/2-64/2, Gdx.graphics.getHeight()/2-64/2, 0);
-		Vector3 coordinates = new Vector3(225, 490, 0);
-	    Vector3 position = camera.unproject(coordinates);
+		TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map.getLayers().get("main");
 		
 		Player player = getObjects().getPlayersPool().obtain();
-//		player.init(position.x, position.y, 64, 64);
-        player.init(225, 490, 64, 64);
+//        player.init(145, 100, 64, 64, collisionLayer);
+        player.init(10 * collisionLayer.getTileWidth(), (collisionLayer.getHeight() - 36) * collisionLayer.getTileHeight(), 32, 50, collisionLayer);
+        player.setSpeed(60);
+        Gdx.input.setInputProcessor(player);
         
-        player.setSpeed(200);
-//        getCamera().position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
-        getCamera().position.set(225, 490, 0);
-//        camera.translate(position.x, position.y);
+        rectTest = new Rectangle(player.getBounds());
         
         setCurrentPlayer(player);
     	
@@ -154,16 +166,39 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 	
 	@Override
 	public void resize(int width, int height) {
-//		setCamera(new OrthographicCamera());
-		getCamera().setToOrtho(false, width, height);
-		getCamera().update();
-//		getBatch().setProjectionMatrix(getCamera().combined);
-		camera.zoom = 5;
+		getCamera().viewportWidth = width;// / 2.5f;
+		getCamera().viewportHeight = height;// / 2.5f;
+//		getCamera().update();
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(this);
+		map = new TmxMapLoader().load(Config.DATA_MAPS_MAP);
+		mapRenderer = new OrthogonalTiledMapRenderer(map);
+		
+//        ArrayList<TiledMapTileLayer.Cell> roadCellsInScene = new ArrayList<TiledMapTileLayer.Cell>();
+//        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("main");
+//        for(int x = 0; x < layer.getWidth();x++){
+//            for(int y = 0; y < layer.getHeight();y++){
+//                TiledMapTileLayer.Cell cell = layer.getCell(x,y);
+//                Object property = cell.getTile().getProperties().get("isroad");
+//                if(property != null && ((String) property).equals("true")){
+//                    roadCellsInScene.add(cell);
+//                    System.out.println(x+" : "+y);
+//                    
+////        			Tool tool = getObjects().getToolsPool().obtain();
+////        	        tool.init(x*32, y*32, 65, 65);
+////
+////        	        getObjects().getActiveTools().add(tool);
+//                }
+//            }
+//        }
+//        
+//        System.out.println(roadCellsInScene.size());
+//        
+        setCamera(new OrthographicCamera());
+        
+        spawnPlayer();
 	}
 
 	@Override
@@ -218,125 +253,77 @@ public class GameScreen3 extends DefaultScreen implements InputProcessor {
 	public void setFont(BitmapFont font) {
 		this.font = font;
 	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-        return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-//  if(keycode == Input.Keys.NUM_1)
-//      map.getLayers().get(0).setVisible(!map.getLayers().get(0).isVisible());
-//  if(keycode == Input.Keys.NUM_2)
-//  	map.getLayers().get(1).setVisible(!map.getLayers().get(1).isVisible());
-        return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		if (!isPlayerAlive() || getCurrentPlayer() == null) return false;
-		
-		switch(character) {
-		case 'w': //up
-			getCurrentPlayer().moveUp();
-			camera.translate(0, getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime());
-			break;
-		case 's': //down
-			getCurrentPlayer().moveDown();
-			camera.translate(0, -getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime());
-			break;
-		case 'a': //left
-			getCurrentPlayer().moveLeft();
-			camera.translate(-getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime(), 0); 
-			break;
-		case 'd': //right
-			getCurrentPlayer().moveRight();
-			camera.translate(getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime(), 0);
-			break;
-		}
-		
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("main");
-		
-		Vector3 cameraCoordinates = camera.unproject(new Vector3(getCurrentPlayer().getBounds().x, getCurrentPlayer().getBounds().y, 0));
-		
-		int cellX = (int) Math.ceil( (getCurrentPlayer().getBounds().x) / layer.getWidth());
-		int cellY = (int) Math.ceil( ((layer.getHeight()*layer.getTileHeight()) - (getCurrentPlayer().getBounds().y+getCurrentPlayer().getBounds().height)) / layer.getTileHeight());
-		
-		
-        for(int x = 0; x < layer.getWidth();x++){
-            for(int y = 0; y < layer.getHeight();y++){
-                TiledMapTileLayer.Cell cell = layer.getCell(x,y);
-                Object property = cell.getTile().getProperties().get("isroad");
-                if(x == cellX && y == cellY && property != null && ((String) property).equals("true")){
-                    System.out.println(x+" : "+y);
-                    
-//        			Tool tool = getObjects().getToolsPool().obtain();
-//        	        tool.init(x*32, y*32, 65, 65);
 //
-//        	        getObjects().getActiveTools().add(tool);
-                }
-            }
-        }
-		
-		
-//		int cellY = (int) (layer.getHeight() - 1 - cellX);
-		
-//		int cellX = 2+1;
-//		int cellY = 1+1;
-		
-//		TiledMapTileLayer.Cell cell = layer.getCell(cellX, cellY);
-//        if (cell != null) { // There is cell
-//        	if (cell.getTile() != null) { // tile inside cell
-////        		boolean type = (Boolean) map.getTileSets().getTile(cell.getTile().getId()).getProperties().get("road");
-////        		MapProperties properties = cell.getTile().getProperties();
-//        		Object property = cell.getTile().getProperties().get("isroad");
-//        		String isRoad = "false";
-//        		if (property != null) isRoad = (String) property;
-//        		if (isRoad.equals("true")) {
-//        			
-//        		}
-//        		System.out.println(cellX+":"+cellY+", "+getCurrentPlayer().getBounds().x+":"+getCurrentPlayer().getBounds().y+", "+camera.position.x+":"+camera.position.y+", road:" +isRoad+", id:" +cell.getTile().getId()+", "+cameraCoordinates.x+":"+cameraCoordinates.y); // Get the ID.
-//        	}
+//	@Override
+//	public boolean keyTyped(char character) {
+//		if (!isPlayerAlive() || getCurrentPlayer() == null) return false;
+//		
+//		switch(character) {
+//		case 'w': //up
+//			getCurrentPlayer().moveUp();
+//			camera.translate(0, getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime());
+//			break;
+//		case 's': //down
+//			getCurrentPlayer().moveDown();
+//			camera.translate(0, -getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime());
+//			break;
+//		case 'a': //left
+//			getCurrentPlayer().moveLeft();
+//			camera.translate(-getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime(), 0); 
+//			break;
+//		case 'd': //right
+//			getCurrentPlayer().moveRight();
+//			camera.translate(getCurrentPlayer().getSpeed() * Gdx.graphics.getDeltaTime(), 0);
+//			break;
+//		}
+//		
+//		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("main");
+//		
+//		Vector3 cameraCoordinates = camera.unproject(new Vector3(getCurrentPlayer().getBounds().x, getCurrentPlayer().getBounds().y, 0));
+//		
+//		int cellX = (int) Math.ceil( (getCurrentPlayer().getBounds().x) / layer.getWidth());
+//		int cellY = (int) Math.ceil( ((layer.getHeight()*layer.getTileHeight()) - (getCurrentPlayer().getBounds().y+getCurrentPlayer().getBounds().height)) / layer.getTileHeight());
+//		
+//		
+//        for(int x = 0; x < layer.getWidth();x++){
+//            for(int y = 0; y < layer.getHeight();y++){
+//                TiledMapTileLayer.Cell cell = layer.getCell(x,y);
+//                Object property = cell.getTile().getProperties().get("isroad");
+//                if(x == cellX && y == cellY && property != null && ((String) property).equals("true")){
+//                    System.out.println(x+" : "+y);
+//                    
+////        			Tool tool = getObjects().getToolsPool().obtain();
+////        	        tool.init(x*32, y*32, 65, 65);
+////
+////        	        getObjects().getActiveTools().add(tool);
+//                }
+//            }
 //        }
 //		
-		
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-//		Vector3 coordinates = new Vector3(screenX, screenY, 0);
-//	    Vector3 position = camera.unproject(coordinates);
-//	    camera.position.set(position);
-//		System.out.println(position.x +" : "+position.y);
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//		
+////		int cellY = (int) (layer.getHeight() - 1 - cellX);
+//		
+////		int cellX = 2+1;
+////		int cellY = 1+1;
+//		
+////		TiledMapTileLayer.Cell cell = layer.getCell(cellX, cellY);
+////        if (cell != null) { // There is cell
+////        	if (cell.getTile() != null) { // tile inside cell
+//////        		boolean type = (Boolean) map.getTileSets().getTile(cell.getTile().getId()).getProperties().get("road");
+//////        		MapProperties properties = cell.getTile().getProperties();
+////        		Object property = cell.getTile().getProperties().get("isroad");
+////        		String isRoad = "false";
+////        		if (property != null) isRoad = (String) property;
+////        		if (isRoad.equals("true")) {
+////        			
+////        		}
+////        		System.out.println(cellX+":"+cellY+", "+getCurrentPlayer().getBounds().x+":"+getCurrentPlayer().getBounds().y+", "+camera.position.x+":"+camera.position.y+", road:" +isRoad+", id:" +cell.getTile().getId()+", "+cameraCoordinates.x+":"+cameraCoordinates.y); // Get the ID.
+////        	}
+////        }
+////		
+//		
+//		return false;
+//	}
 
 	public boolean isPlayerAlive() {
 		return isPlayerAlive;

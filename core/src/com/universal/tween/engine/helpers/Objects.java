@@ -1,5 +1,6 @@
 package com.universal.tween.engine.helpers;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -51,13 +52,13 @@ public class Objects {
 	public void dispose() {
 	}
 
-	public void update() {
-		updateBalls();
-		updateTools();
-		updatePlayers();
+	public void update(float delta) {
+		updateBalls(delta);
+		updateTools(delta);
+		updatePlayers(delta);
 	}
 	
-	public void render(SpriteBatch batch, float delta) {
+	public void render(Batch batch, float delta) {
 		for (Ball ball : getActiveBalls()) {
 			ball.render(batch);
 		}
@@ -71,7 +72,7 @@ public class Objects {
 		}
 	}
 
-	private void updateBalls() {
+	private void updateBalls(float delta) {
 		Ball ball;
 		int balls = getActiveBalls().size;
 		for (int i = balls; --i >= 0;) {
@@ -81,12 +82,12 @@ public class Objects {
 				getActiveBalls().removeIndex(i);
 				getBallsPool().free(ball);
 			} else {
-				ball.update();
+				ball.update(delta);
 			}
 		}
 	}
 
-	private void updateTools() {
+	private void updateTools(float delta) {
 		Tool tool;
 		int tools = getActiveTools().size;
 		for (int i = tools; --i >= 0;) {
@@ -95,12 +96,12 @@ public class Objects {
 				getActiveTools().removeIndex(i);
 				getToolsPool().free(tool);
 			} else {
-				tool.update();
+				tool.update(delta);
 			}
 		}
 	}	
 	
-	private void updatePlayers() {
+	private void updatePlayers(float delta) {
 		Player player;
 		int players = getActivePlayers().size;
 		for (int i = players; --i >= 0;) {
@@ -109,7 +110,7 @@ public class Objects {
 				getActivePlayers().removeIndex(i);
 				getPlayersPool().free(player);
 			} else {
-				player.update();
+				player.update(delta);
 			}
 		}
 	}	
